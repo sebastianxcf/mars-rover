@@ -1,7 +1,8 @@
 package com.scastellanos.marsrover.domain;
 
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Grid {
 	
@@ -9,16 +10,25 @@ public class Grid {
     
     private Coordinates topRightCoordinates = new Coordinates(0,0);
     
-    private List<Obstacle> obstacles = new LinkedList<>();
+    private Map<Coordinates,Obstacle> obstaclesMap = new HashMap<Coordinates,Obstacle>();
     
 	
     public Grid(Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates,List<Obstacle> obstacles) {
+    	
+    	for (Obstacle obstacle : obstacles) {
+			this.obstaclesMap.put(obstacle.getCoordinate(), obstacle);
+		}
     	
     	this.bottomLeftCoordinates = bottomLeftCoordinates;
 		this.topRightCoordinates = topRightCoordinates;
 	}
 
 
+    public boolean hasObstacle(Coordinates coordinate) {
+    	return this.obstaclesMap.containsKey(coordinate);
+    }
+    
+    
 	/**
 	 * @return the bottomLeftCoordinates
 	 */
@@ -48,20 +58,7 @@ public class Grid {
 	}
 
 
-	/**
-	 * @return the obstacles
-	 */
-	public List<Obstacle> getObstacles() {
-		return obstacles;
-	}
 
-
-	/**
-	 * @param obstacles the obstacles to set
-	 */
-	public void setObstacles(List<Obstacle> obstacles) {
-		this.obstacles = obstacles;
-	}
 
 
 }

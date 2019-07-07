@@ -35,6 +35,11 @@ public class MarsRover {
 	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
 	};
 
+	public boolean hasObstacles(Coordinates coordinates) {
+		if(grid.hasObstacle(coordinates))
+            return true;
+		return false;
+	}
 	/**
 	 * @return the coordinates
 	 */

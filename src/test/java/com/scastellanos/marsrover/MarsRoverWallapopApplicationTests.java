@@ -2,6 +2,7 @@ package com.scastellanos.marsrover;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,4 +160,28 @@ public class MarsRoverWallapopApplicationTests {
 		
 	}
 
+	@Test
+	public void testObstacleDetection(){
+		List<Obstacle> obstacles = new ArrayList();
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(1, 0));
+		obstacles.add(o);
+		
+		Direction direction = Direction.EAST;
+		Coordinates current = new Coordinates(0,0);
+		
+		Coordinates topRight = new Coordinates(10,10);
+		Coordinates topLeft = new Coordinates(0,0);
+		
+		Grid grid = new Grid(topLeft,topRight,obstacles);
+		
+		parser.init();
+		
+		MarsRover rover = new MarsRover(current, direction, grid);
+		parser.getCommands().get("F").move(rover);
+		
+		assertTrue(rover.hasObstacles(rover.getCoordinates()));
+		
+		
+	}
 }

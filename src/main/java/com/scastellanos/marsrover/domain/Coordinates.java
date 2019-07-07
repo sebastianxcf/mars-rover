@@ -22,6 +22,14 @@ public class Coordinates {
 	public String toString() {
 		return "Coordinates [cordinateX=" + cordinateX + ", cordinateY=" + cordinateY + "]";
 	}
+	
+	/**
+	 * Used to save the coordinates in a hashmap. 
+	 * @return
+	 */
+	public String getKey() {
+		return this.cordinateX.toString() +this.cordinateX.toString();
+	}
 
 	/*
 	 * Given a direction move one step forward
@@ -117,24 +125,10 @@ public class Coordinates {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		Coordinates c=  (Coordinates)obj;
+		if(c.getCordinateX().equals(this.getCordinateX()) && c.getCordinateY().equals(this.getCordinateY()))
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Coordinates other = (Coordinates) obj;
-		if (cordinateX == null) {
-			if (other.cordinateX != null)
-				return false;
-		} else if (!cordinateX.equals(other.cordinateX))
-			return false;
-		if (cordinateY == null) {
-			if (other.cordinateY != null)
-				return false;
-		} else if (!cordinateY.equals(other.cordinateY))
-			return false;
-		return true;
+		return false;
 	}
 
 }
