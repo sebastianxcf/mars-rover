@@ -1,7 +1,5 @@
 package com.scastellanos.marsrover.domain;
 
-import com.scastellanos.marsrover.commands.ICommand;
-
 public class MarsRover {
 
 	private Coordinates coordinates;
@@ -10,16 +8,11 @@ public class MarsRover {
 
 	private Grid grid;
 
-	private ICommand command;
-
-	Parser parser;
 	
-	
-	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) {
+	public MarsRover(Coordinates coordinates, Direction direction, Grid grid) {
 		this.coordinates = coordinates;
 		this.direction = direction;
 		this.grid = grid;
-		this.parser = parser;
 	}
 
 	public void turnLeft() {
@@ -41,12 +34,6 @@ public class MarsRover {
 		this.coordinates.moveBack(direction.toString()); 
 	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
 	};
-
-	
-	public void processCommand(String command) {
-		this.getParser().getCommands().get(command).move(this);
-		System.out.println("Command " + command);
-	}
 
 	/**
 	 * @return the coordinates
@@ -90,18 +77,5 @@ public class MarsRover {
 		this.grid = grid;
 	}
 
-	/**
-	 * @return the parser
-	 */
-	public Parser getParser() {
-		return parser;
-	}
-
-	/**
-	 * @param parser the parser to set
-	 */
-	public void setParser(Parser parser) {
-		this.parser = parser;
-	};
 
 }

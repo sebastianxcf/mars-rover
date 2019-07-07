@@ -3,10 +3,10 @@ package com.scastellanos.marsrover.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.scastellanos.marsrover.commands.CommandMoveBack;
-import com.scastellanos.marsrover.commands.CommandMoveFoward;
-import com.scastellanos.marsrover.commands.CommandRotateLeft;
-import com.scastellanos.marsrover.commands.CommandRotateRight;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import com.scastellanos.marsrover.commands.ICommand;
 
 /**
@@ -16,26 +16,37 @@ import com.scastellanos.marsrover.commands.ICommand;
  * @author scastellanos
  *
  */
+@Component
 public class Parser {
 
 	Map<String, ICommand> commands = new HashMap<String, ICommand>();
 
+	
+	@Autowired
+	@Qualifier("right")
 	private ICommand commandRotateRight;
-
+	
+	@Autowired
+	@Qualifier("left")
 	private ICommand commandRotateLeft;
-
-	private ICommand commandMoveFoward;
-
+	
+	@Autowired
+	@Qualifier("forward")
+	private ICommand commandMoveForward;
+	
+	@Autowired
+	@Qualifier("back")
 	private ICommand commandMoveBack;
 
 	public Parser() {
-		commands.put("R", commandRotateRight = new CommandRotateRight());
-		commands.put("L", commandRotateLeft = new CommandRotateLeft());
-		commands.put("F", commandMoveFoward = new CommandMoveFoward());
-		commands.put("B", commandMoveBack = new CommandMoveBack());
-
 	}
-
+	
+	public void init() {
+		commands.put("R",commandRotateRight);
+		commands.put("L",commandRotateLeft);
+		commands.put("F",commandMoveForward);
+		commands.put("B",commandMoveBack);
+	}
 	/**
 	 * @return the commands
 	 */

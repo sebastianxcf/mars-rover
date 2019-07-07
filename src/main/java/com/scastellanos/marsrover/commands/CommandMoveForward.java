@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import com.scastellanos.marsrover.domain.MarsRover;
 
 @Component
-@Qualifier("right")
-public class CommandRotateRight implements ICommand{
+@Qualifier("forward")
+public class CommandMoveForward implements ICommand{
 
 	@Override
-	public void move(MarsRover rover) {
-		rover.turnRight();
+	public void move(MarsRover rover){
+		rover.moveFoward();;
 		
 	}
 

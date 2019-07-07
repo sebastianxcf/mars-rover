@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +22,9 @@ import com.scastellanos.marsrover.domain.Parser;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MarsRoverWallapopApplicationTests {
+	
+	@Autowired
+	Parser parser;
 
 	@Test
 	public void testCreateNewRover(){
@@ -45,9 +49,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		Parser parser = new Parser();
+		parser.init();
 		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		MarsRover rover = new MarsRover(current, direction, grid);
 		
 		assertNotNull(rover);
 	
@@ -68,11 +72,12 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 
-		Parser parser = new Parser();
+		MarsRover rover = new MarsRover(current, direction, grid);
+		parser.init();
 		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
+
+		parser.getCommands().get("F").move(rover);
 		
-		rover.processCommand("F");
 		Coordinates expectedCoord = new Coordinates(0,1);
 		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
 		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
@@ -94,10 +99,10 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		Parser parser = new Parser();
+		parser.init();
 		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
-		rover.processCommand("R");
+		MarsRover rover = new MarsRover(current, direction, grid);
+		parser.getCommands().get("R").move(rover);
 		
 		assertEquals(Direction.EAST, rover.getDirection());
 		
@@ -118,11 +123,11 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		Parser parser = new Parser();
+		parser.init();
 		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		MarsRover rover = new MarsRover(current, direction, grid);
 		
-		rover.processCommand("L");
+		parser.getCommands().get("L").move(rover);
 		
 		assertEquals(Direction.WEST, rover.getDirection());
 	}
@@ -142,11 +147,12 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		Parser parser = new Parser();
+		parser.init();
 		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		MarsRover rover = new MarsRover(current, direction, grid);
 		
-		rover.processCommand("B");
+		parser.getCommands().get("B").move(rover);
+		
 		Coordinates expectedCoord = new Coordinates(1,0);
 		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
 		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
