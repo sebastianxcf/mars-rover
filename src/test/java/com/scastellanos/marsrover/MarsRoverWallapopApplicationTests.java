@@ -50,26 +50,95 @@ public class MarsRoverWallapopApplicationTests {
 	
 	}
 	
-	@Test 
-	  public void testMoveRoverFoward(){ 
-	    List<Obstacle> obstacles = new ArrayList(); 
-	    Obstacle o = new Obstacle(); 
-	    o.setCoordinate(new Coordinates(2, 0)); 
-	    obstacles.add(o); 
-	     
-	    Direction direction = Direction.NORTH; 
-	    Coordinates current = new Coordinates(0,0); 
-	     
-	    Coordinates topRight = new Coordinates(10,10); 
-	    Coordinates topLeft = new Coordinates(0,0); 
-	     
-	    Grid grid = new Grid(topLeft,topRight,obstacles); 
-	     
-	    MarsRover rover = new MarsRover(current, direction, grid); 
-	    rover.processCommand("F"); 
-	    Coordinates expectedCoord = new Coordinates(2,0);
+	@Test
+	public void testMoveRoverFoward(){
+		List<Obstacle> obstacles = new ArrayList();
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(2, 0));
+		obstacles.add(o);
+		
+		Direction direction = Direction.NORTH;
+		Coordinates current = new Coordinates(0,0);
+		
+		Coordinates topRight = new Coordinates(10,10);
+		Coordinates topLeft = new Coordinates(0,0);
+		
+		Grid grid = new Grid(topLeft,topRight,obstacles);
+
+		MarsRover rover = new MarsRover(current, direction, grid);
+		rover.processCommand("F");
+		Coordinates expectedCoord = new Coordinates(0,1);
 		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
-	     
-	  } 
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+		
+	}
+	
+	@Test
+	public void testTurnRoverRight(){
+		List<Obstacle> obstacles = new ArrayList();
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(2, 0));
+		obstacles.add(o);
+		
+		Direction direction = Direction.NORTH;
+		Coordinates current = new Coordinates(0,0);
+		
+		Coordinates topRight = new Coordinates(10,10);
+		Coordinates topLeft = new Coordinates(0,0);
+		
+		Grid grid = new Grid(topLeft,topRight,obstacles);
+		
+		MarsRover rover = new MarsRover(current, direction, grid);
+		rover.processCommand("R");
+		
+		assertEquals(Direction.EAST, rover.getDirection());
+		
+	}
+	
+	@Test
+	public void testTurnRoverLeft(){
+		List<Obstacle> obstacles = new ArrayList();
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(2, 0));
+		obstacles.add(o);
+		
+		Direction direction = Direction.NORTH;
+		Coordinates current = new Coordinates(0,0);
+		
+		Coordinates topRight = new Coordinates(10,10);
+		Coordinates topLeft = new Coordinates(0,0);
+		
+		Grid grid = new Grid(topLeft,topRight,obstacles);
+		
+		MarsRover rover = new MarsRover(current, direction, grid);
+		
+		rover.processCommand("L");
+		
+		assertEquals(Direction.WEST, rover.getDirection());
+	}
+	
+	@Test
+	public void testMoveRoverBack(){
+		List<Obstacle> obstacles = new ArrayList();
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(2, 0));
+		obstacles.add(o);
+		
+		Direction direction = Direction.WEST;
+		Coordinates current = new Coordinates(0,0);
+		
+		Coordinates topRight = new Coordinates(10,10);
+		Coordinates topLeft = new Coordinates(0,0);
+		
+		Grid grid = new Grid(topLeft,topRight,obstacles);
+		
+		MarsRover rover = new MarsRover(current, direction, grid);
+		
+		rover.processCommand("B");
+		Coordinates expectedCoord = new Coordinates(1,0);
+		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+		
+	}
 
 }
