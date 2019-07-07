@@ -1,6 +1,7 @@
 package com.scastellanos.marsrover.domain;
 
 import com.scastellanos.marsrover.exceptions.MoveException;
+import com.scastellanos.marsrover.util.ErrorCodes;
 
 public class MarsRover {
 
@@ -47,8 +48,12 @@ public class MarsRover {
 	 * @throws MoveException
 	 */
 	private void validateMove(Coordinates coordinate) throws MoveException  {
+		if(!isValidateBounds(coordinates)) {
+			throw new MoveException(ErrorCodes.MR_MOVE_101.getValue(),ErrorCodes.MR_MOVE_101.getDescription());
+			
+		}
 		if(hasObstacles(this.coordinates)) {
-			throw new MoveException("There is an obstacle in the direction" + coordinate.toString());
+			throw new MoveException(ErrorCodes.MR_MOVE_102.getValue(),ErrorCodes.MR_MOVE_102.getDescription());
 		}
 		
 	}
@@ -58,6 +63,23 @@ public class MarsRover {
 	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
 	};
 
+	/**
+	 * Given a coordinates return true only if the move is inside of the grid limits.
+	 * @param coordenate
+	 * @return
+	 */
+	private boolean isValidateBounds(Coordinates coordenate){
+		if(coordenate.getCordinateX() > grid.getTopRightCoordinates().getCordinateX()   ||
+		   coordenate.getCordinateX() < grid.getBottomLeftCoordinates().getCordinateX() ||
+		   coordenate.getCordinateY() > grid.getTopRightCoordinates().getCordinateY() ||
+		   coordenate.getCordinateY() < grid.getBottomLeftCoordinates().getCordinateY()) {
+			return false;
+		}
+		return true;
+		
+	}
+	
+	
 	public boolean hasObstacles(Coordinates coordinates) {
 		if(grid.hasObstacle(coordinates))
             return true;

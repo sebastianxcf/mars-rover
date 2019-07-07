@@ -1,4 +1,4 @@
-package com.scastellanos.marsrover.domain;
+package com.scastellanos.marsrover.parser;
 
 import java.util.HashMap;
 import java.util.Map;
