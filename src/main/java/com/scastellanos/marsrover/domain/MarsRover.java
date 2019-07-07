@@ -1,5 +1,7 @@
 package com.scastellanos.marsrover.domain;
 
+import com.scastellanos.marsrover.exceptions.MoveException;
+
 public class MarsRover {
 
 	private Coordinates coordinates;
@@ -24,11 +26,32 @@ public class MarsRover {
 		this.direction = this.direction.turnRight();
 		System.out.println("We are looking at " + direction.name());
 	};
-
-	public void moveFoward() {
+	
+	public void moveFoward() throws MoveException {
+		Coordinates previews = new Coordinates(this.coordinates);
+		
 		this.coordinates.moveForward(direction.toString());   
+		try {
+			validateMove(this.coordinates);
+		}catch (MoveException e) {
+			//In case of an obstacle detection, should not move.
+			this.coordinates=previews;
+			throw e;
+		}
 		System.out.println("Mooving Foward,we are in position > " + this.coordinates.toString()); 
 	};
+	
+	/**
+	 * Given a coordinate determinate if the move is valid or not
+	 * @param coordinate
+	 * @throws MoveException
+	 */
+	private void validateMove(Coordinates coordinate) throws MoveException  {
+		if(hasObstacles(this.coordinates)) {
+			throw new MoveException("There is an obstacle in the direction" + coordinate.toString());
+		}
+		
+	}
 
 	public void moveBack() {
 		this.coordinates.moveBack(direction.toString()); 

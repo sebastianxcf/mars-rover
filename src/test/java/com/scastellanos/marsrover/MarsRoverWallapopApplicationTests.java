@@ -19,6 +19,7 @@ import com.scastellanos.marsrover.domain.Grid;
 import com.scastellanos.marsrover.domain.MarsRover;
 import com.scastellanos.marsrover.domain.Obstacle;
 import com.scastellanos.marsrover.domain.Parser;
+import com.scastellanos.marsrover.exceptions.MoveException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -59,7 +60,7 @@ public class MarsRoverWallapopApplicationTests {
 	}
 	
 	@Test
-	public void testMoveRoverFoward(){
+	public void testMoveRoverFoward() throws MoveException{
 		List<Obstacle> obstacles = new ArrayList();
 		Obstacle o = new Obstacle();
 		o.setCoordinate(new Coordinates(2, 0));
@@ -86,7 +87,7 @@ public class MarsRoverWallapopApplicationTests {
 	}
 	
 	@Test
-	public void testTurnRoverRight(){
+	public void testTurnRoverRight() throws MoveException{
 		List<Obstacle> obstacles = new ArrayList();
 		Obstacle o = new Obstacle();
 		o.setCoordinate(new Coordinates(2, 0));
@@ -110,7 +111,7 @@ public class MarsRoverWallapopApplicationTests {
 	}
 	
 	@Test
-	public void testTurnRoverLeft(){
+	public void testTurnRoverLeft() throws MoveException{
 		List<Obstacle> obstacles = new ArrayList();
 		Obstacle o = new Obstacle();
 		o.setCoordinate(new Coordinates(2, 0));
@@ -134,7 +135,7 @@ public class MarsRoverWallapopApplicationTests {
 	}
 	
 	@Test
-	public void testMoveRoverBack(){
+	public void testMoveRoverBack() throws MoveException{
 		List<Obstacle> obstacles = new ArrayList();
 		Obstacle o = new Obstacle();
 		o.setCoordinate(new Coordinates(2, 0));
@@ -160,11 +161,11 @@ public class MarsRoverWallapopApplicationTests {
 		
 	}
 
-	@Test
-	public void testObstacleDetection(){
+	@Test(expected= MoveException.class)
+	public void testObstacleDetection() throws MoveException{
 		List<Obstacle> obstacles = new ArrayList();
 		Obstacle o = new Obstacle();
-		o.setCoordinate(new Coordinates(1, 0));
+		o.setCoordinate(new Coordinates(2, 0));
 		obstacles.add(o);
 		
 		Direction direction = Direction.EAST;
@@ -178,10 +179,15 @@ public class MarsRoverWallapopApplicationTests {
 		parser.init();
 		
 		MarsRover rover = new MarsRover(current, direction, grid);
-		parser.getCommands().get("F").move(rover);
 		
-		assertTrue(rover.hasObstacles(rover.getCoordinates()));
-		
+		try {
+			parser.getCommands().get("F").move(rover);
+			parser.getCommands().get("F").move(rover);
+		}catch(MoveException e) {
+			assertEquals(new Integer(1), rover.getCoordinates().getCordinateX());
+			assertEquals(new Integer(0), rover.getCoordinates().getCordinateY());
+			throw e;
+		}
 		
 	}
 }

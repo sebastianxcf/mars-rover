@@ -6,6 +6,11 @@ public class Coordinates {
 		this.cordinateX = cordinateX;
 		this.cordinateY = cordinateY;
 	}
+	
+	public Coordinates(Coordinates anotherCoordinate) {
+		this.cordinateX = anotherCoordinate.cordinateX;
+		this.cordinateY = anotherCoordinate.cordinateY;
+	}
 
 	private Integer cordinateX;
 	private Integer cordinateY;
