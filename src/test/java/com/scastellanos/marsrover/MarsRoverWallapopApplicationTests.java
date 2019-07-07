@@ -16,6 +16,7 @@ import com.scastellanos.marsrover.domain.Direction;
 import com.scastellanos.marsrover.domain.Grid;
 import com.scastellanos.marsrover.domain.MarsRover;
 import com.scastellanos.marsrover.domain.Obstacle;
+import com.scastellanos.marsrover.domain.Parser;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,7 +45,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		MarsRover rover = new MarsRover(current, direction, grid);
+		Parser parser = new Parser();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
 		assertNotNull(rover);
 	
@@ -65,7 +68,10 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 
-		MarsRover rover = new MarsRover(current, direction, grid);
+		Parser parser = new Parser();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
 		rover.processCommand("F");
 		Coordinates expectedCoord = new Coordinates(0,1);
 		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
@@ -88,7 +94,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		MarsRover rover = new MarsRover(current, direction, grid);
+		Parser parser = new Parser();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		rover.processCommand("R");
 		
 		assertEquals(Direction.EAST, rover.getDirection());
@@ -110,7 +118,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		MarsRover rover = new MarsRover(current, direction, grid);
+		Parser parser = new Parser();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
 		rover.processCommand("L");
 		
@@ -132,7 +142,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Grid grid = new Grid(topLeft,topRight,obstacles);
 		
-		MarsRover rover = new MarsRover(current, direction, grid);
+		Parser parser = new Parser();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
 		rover.processCommand("B");
 		Coordinates expectedCoord = new Coordinates(1,0);

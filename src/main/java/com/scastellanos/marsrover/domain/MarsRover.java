@@ -1,9 +1,5 @@
 package com.scastellanos.marsrover.domain;
 
-import com.scastellanos.marsrover.commands.CommandMoveBack;
-import com.scastellanos.marsrover.commands.CommandMoveFoward;
-import com.scastellanos.marsrover.commands.CommandRotateLeft;
-import com.scastellanos.marsrover.commands.CommandRotateRight;
 import com.scastellanos.marsrover.commands.ICommand;
 
 public class MarsRover {
@@ -16,10 +12,14 @@ public class MarsRover {
 
 	private ICommand command;
 
-	public MarsRover(Coordinates coordinates, Direction direction, Grid grid) {
+	Parser parser;
+	
+	
+	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) {
 		this.coordinates = coordinates;
 		this.direction = direction;
 		this.grid = grid;
+		this.parser = parser;
 	}
 
 	public void turnLeft() {
@@ -80,29 +80,10 @@ public class MarsRover {
 	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
 	};
 
-	public void processCommand(String instruction) {
-		// TODO Improve the way of instantiate Commands
-		switch (instruction) {
-		case "F":
-			command = new CommandMoveFoward();
-			command.move(this);
-			break;
-		case "B":
-			command = new CommandMoveBack();
-			command.move(this);
-			break;
-		case "L":
-			command = new CommandRotateLeft();
-			command.move(this);
-			break;
-		case "R":
-			command = new CommandRotateRight();
-			command.move(this);
-			break;
-		default:
-			break;
-		}
-		System.out.println("Instruction " + instruction);
+	
+	public void processCommand(String command) {
+		this.getParser().getCommands().get(command).move(this);
+		System.out.println("Command " + command);
 	}
 
 	/**
@@ -145,6 +126,20 @@ public class MarsRover {
 	 */
 	public void setGrid(Grid grid) {
 		this.grid = grid;
+	}
+
+	/**
+	 * @return the parser
+	 */
+	public Parser getParser() {
+		return parser;
+	}
+
+	/**
+	 * @param parser the parser to set
+	 */
+	public void setParser(Parser parser) {
+		this.parser = parser;
 	};
 
 }
