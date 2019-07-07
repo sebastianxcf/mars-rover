@@ -33,50 +33,12 @@ public class MarsRover {
 	};
 
 	public void moveFoward() {
-		switch (direction.toString()) {  
-        case "NORTH":  
-          this.coordinates = new Coordinates(this.coordinates.getCordinateX(), this.coordinates.getCordinateY() + 1);  
-          System.out.println("We are in position > " + this.coordinates.toString());  
-          break;  
-            case "EAST":  
-              this.coordinates = new Coordinates(this.coordinates.getCordinateX() + 1, this.coordinates.getCordinateY());  
-          System.out.println("We are in position > " + this.coordinates.toString());  
-              break;  
-            case "WEST":  
-              this.coordinates = new Coordinates(this.coordinates.getCordinateX() -1 , this.coordinates.getCordinateY());  
-          System.out.println("We are in position > " + this.coordinates.toString());  
-              break;  
-            case "SOUT":  
-              this.coordinates = new Coordinates(this.coordinates.getCordinateX(), this.coordinates.getCordinateY() - 1);  
-          System.out.println("We are in position > " + this.coordinates.toString());  
-              break;  
-            default:  
-                throw new IllegalStateException("Wrong Direction");  
-        }  
+		this.coordinates.moveForward(direction.toString());   
 		System.out.println("Mooving Foward,we are in position > " + this.coordinates.toString()); 
 	};
 
 	public void moveBack() {
-		 switch (direction.toString()) {  
-	        case "NORTH":  
-	          this.coordinates = new Coordinates(this.coordinates.getCordinateX(), this.coordinates.getCordinateY() - 1);  
-	          System.out.println("We are in position > " + this.coordinates.toString());  
-	          break;  
-	            case "EAST":  
-	              this.coordinates = new Coordinates(this.coordinates.getCordinateX() - 1, this.coordinates.getCordinateY());  
-	          System.out.println("We are in position > " + this.coordinates.toString());  
-	              break;  
-	            case "WEST":  
-	              this.coordinates = new Coordinates(this.coordinates.getCordinateX() +1 , this.coordinates.getCordinateY());  
-	          System.out.println("We are in position > " + this.coordinates.toString());  
-	              break;  
-	            case "SOUT":  
-	              this.coordinates = new Coordinates(this.coordinates.getCordinateX(), this.coordinates.getCordinateY() + 1);  
-	          System.out.println("We are in position > " + this.coordinates.toString());  
-	              break;  
-	            default:  
-	                throw new IllegalStateException("Wrong Direction");  
-	        }  
+		this.coordinates.moveBack(direction.toString()); 
 	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
 	};
 

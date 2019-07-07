@@ -1,25 +1,72 @@
 package com.scastellanos.marsrover.domain;
 
 public class Coordinates {
-	
+
 	public Coordinates(int cordinateX, int cordinateY) {
 		this.cordinateX = cordinateX;
 		this.cordinateY = cordinateY;
 	}
-	
+
 	private Integer cordinateX;
 	private Integer cordinateY;
 
-	public Coordinates() {}
-	
-	/* (non-Javadoc)
+	public Coordinates() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Coordinates [cordinateX=" + cordinateX + ", cordinateY=" + cordinateY + "]";
 	}
-	
+
+	/*
+	 * Given a direction move one step forward
+	 */
+	public void moveForward(String direction) {
+
+		switch (direction) {
+		case "NORTH":
+			this.cordinateY++;
+			break;
+		case "EAST":
+			this.cordinateX++;
+			break;
+		case "WEST":
+			this.cordinateX--;
+			break;
+		case "SOUTH":
+			this.cordinateY--;
+			break;
+		default:
+			throw new IllegalStateException("Wrong Direction");
+		}
+	};
+
+	/*
+	 * Given a direction move one step backward
+	 */
+	public void moveBack(String direction) {
+		switch (direction) {
+		case "NORTH":
+			this.cordinateY--;
+			break;
+		case "EAST":
+			this.cordinateX--;
+			break;
+		case "WEST":
+			this.cordinateX++;
+			break;
+		case "SOUT":
+			this.cordinateY++;
+			break;
+		default:
+			throw new IllegalStateException("Wrong Direction");
+		}
+	}
 
 	/**
 	 * @return the cordinateX
@@ -49,7 +96,9 @@ public class Coordinates {
 		this.cordinateY = cordinateY;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -61,7 +110,9 @@ public class Coordinates {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -85,6 +136,5 @@ public class Coordinates {
 			return false;
 		return true;
 	}
-	
 
 }
