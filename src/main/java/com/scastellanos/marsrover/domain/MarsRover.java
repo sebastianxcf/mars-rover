@@ -1,6 +1,9 @@
 package com.scastellanos.marsrover.domain;
 
+import java.util.Arrays;
+
 import com.scastellanos.marsrover.exceptions.MoveException;
+import com.scastellanos.marsrover.parser.Parser;
 import com.scastellanos.marsrover.util.ErrorCodes;
 
 public class MarsRover {
@@ -10,14 +13,37 @@ public class MarsRover {
 	private Direction direction;
 
 	private Grid grid;
+	
+	Parser parser;
 
+	
+	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) {
+		this.coordinates = coordinates;
+		this.direction = direction;
+		this.grid = grid;
+		this.parser = parser;
+	}
 	
 	public MarsRover(Coordinates coordinates, Direction direction, Grid grid) {
 		this.coordinates = coordinates;
 		this.direction = direction;
 		this.grid = grid;
 	}
-
+	
+	public void play(String commands) {
+		 for(String c : Arrays.asList(commands.split("")) ){  
+	        	try {
+					
+	        		parser.getCommands().get(c).move(this);
+					
+				} catch (MoveException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+	        }
+		
+	}
+	
 	public void turnLeft() {
 		this.direction = this.direction.turnLeft();
 		System.out.println("We are looking at " + direction.name());

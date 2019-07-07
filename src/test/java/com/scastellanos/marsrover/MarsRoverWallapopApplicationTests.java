@@ -184,4 +184,21 @@ public class MarsRoverWallapopApplicationTests {
 		}
 		
 	}
+	
+	@Test
+	public void testExecuteMoreThanOneCommand() throws MoveException{
+		Direction direction = Direction.NORTH;
+		
+		parser.init();
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
+			String command = "FFF";
+			//parser.getCommands().get("F").move(rover);
+			rover.play(command);
+			assertEquals(new Integer(0), rover.getCoordinates().getCordinateX());
+			assertEquals(new Integer(3), rover.getCoordinates().getCordinateY());
+	}
+	
+	
 }
