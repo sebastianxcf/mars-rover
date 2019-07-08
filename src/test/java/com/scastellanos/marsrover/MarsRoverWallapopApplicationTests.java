@@ -34,31 +34,29 @@ public class MarsRoverWallapopApplicationTests {
 	
 	Coordinates topRight;
 	
-	Coordinates topLeft;
+	Coordinates bottomLeft;
 	
 	List<Obstacle> obstacles = new ArrayList();
+	
+	List<String> instructions;
 	
 	Grid grid;
 	
 	@Before
 	public void init() throws CreationException {
+		instructions = new ArrayList<String>();
 		current = new Coordinates(0,0);
 		topRight = new Coordinates(10,10);
-		topLeft = new Coordinates(0,0);
-		grid = new Grid(topLeft,topRight,obstacles);
+		bottomLeft = new Coordinates(0,0);
+		grid = new Grid(bottomLeft,topRight,obstacles);
 		parser.init();
 	}
 	
-	
+	//ROVER CREATION TEST
 	@Test
 	public void testCreateNewRover() throws CreationException{
-		List<String> instructions = new ArrayList();
 		instructions.add("R");
 		instructions.add("F");
-		instructions.add("F");
-		instructions.add("L");
-		instructions.add("F");
-		instructions.add("B");
 
 		Direction direction = Direction.NORTH;
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
@@ -66,19 +64,92 @@ public class MarsRoverWallapopApplicationTests {
 		assertNotNull(rover);
 	}
 	
-	//1 normal create
-	//2 crate with null direction
-	//3 create with out of bounds coordinates
-	//4 create obstacle in wrong position
-	//5 create with invalid grid.
+	@Test(expected = CreationException.class)
+	public void testCreateNewRoverWithNullDirection() throws CreationException{
+		
+		instructions.add("R");
+		instructions.add("F");
+		instructions.add("B");
+
+		Direction direction = null;
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
+		assertNotNull(rover);
+	}
 	
+	@Test(expected = CreationException.class)
+	public void testCreateNewRoverWithOutOfBoundsCoordinates() throws CreationException{
+		
+		instructions.add("R");
+		instructions.add("F");
+		instructions.add("B");
+
+		Direction direction = Direction.NORTH;
+		current = new Coordinates(-1,-2);
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
+		assertNotNull(rover);
+	}
 	
-	@Test
-	public void testMoveRoverFoward() throws MoveException, CreationException{
-		List<Obstacle> obstacles = new ArrayList();
+	@Test(expected = CreationException.class)
+	public void testCreateNewRoverOverAnExistingObstacle() throws CreationException{
 		Obstacle o = new Obstacle();
 		o.setCoordinate(new Coordinates(2, 0));
+		
 		obstacles.add(o);
+		grid = new Grid(bottomLeft,topRight,obstacles);
+		
+		current = new Coordinates(2,0);
+		Direction direction = Direction.NORTH;
+		
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
+		assertNotNull(rover);
+	}
+	
+	//GRID CREATIONS TESTS 
+	@Test(expected = CreationException.class)
+	public void testCreateObstacleWithXPositionMayorThanXBorder() throws CreationException{
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(20, 0));
+		
+		obstacles.add(o);
+		grid = new Grid(bottomLeft,topRight,obstacles);
+	}
+	
+	@Test(expected = CreationException.class)
+	public void testCreateObstacleWithXPositionMinorThanXBorder() throws CreationException{
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(-10, 0));
+		
+		obstacles.add(o);
+		grid = new Grid(bottomLeft,topRight,obstacles);
+	}
+	
+	@Test(expected = CreationException.class)
+	public void testCreateObstacleWithYPositionMayorThanYBorder() throws CreationException{
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(0, 20));
+		
+		obstacles.add(o);
+		grid = new Grid(bottomLeft,topRight,obstacles);
+	}
+	
+	@Test(expected = CreationException.class)
+	public void testCreateObstacleWithYPositionMinorThanYBorder() throws CreationException{
+		Obstacle o = new Obstacle();
+		o.setCoordinate(new Coordinates(0, -20));
+		
+		obstacles.add(o);
+		grid = new Grid(bottomLeft,topRight,obstacles);
+	}
+	
+	
+	//MOVE ROVER TEST
+	
+	@Test
+	public void testMoveRoverForward() throws MoveException, CreationException{
 		
 		Direction direction = Direction.NORTH;
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
@@ -93,15 +164,27 @@ public class MarsRoverWallapopApplicationTests {
 	}
 	
 	@Test
+	public void testMoveRoverBackward() throws MoveException, CreationException{
+		
+		Direction direction = Direction.NORTH;
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+
+		String commands = "FB";
+		rover.play(commands);
+		
+		Coordinates expectedCoord = new Coordinates(0,0);
+		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+		
+	}
+	
+	@Test
 	public void testTurnRoverRight() throws MoveException, CreationException{
 		
 		Direction direction = Direction.NORTH;
-		Grid grid = new Grid(topLeft,topRight,obstacles);
-		
-		parser.init();
-		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		String commands = "R";
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
+		
 		rover.play(commands);
 		
 		assertEquals(Direction.EAST, rover.getDirection());
@@ -113,10 +196,8 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Direction direction = Direction.NORTH;
 		
-		parser.init();
-		
-		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		String commands = "L";
+		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		rover.play(commands);
 		
 		assertEquals(Direction.WEST, rover.getDirection());
@@ -127,11 +208,9 @@ public class MarsRoverWallapopApplicationTests {
 		
 		Direction direction = Direction.WEST;
 		
-		parser.init();
-		
+		String commands = "B";
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
-		String commands = "B";
 		rover.play(commands);
 		
 		Coordinates expectedCoord = new Coordinates(1,0);
@@ -146,11 +225,9 @@ public class MarsRoverWallapopApplicationTests {
 		o.setCoordinate(new Coordinates(2, 0));
 		obstacles.add(o);
 		
+		Grid grid = new Grid(bottomLeft,topRight,obstacles);
+
 		Direction direction = Direction.EAST;
-		
-		Grid grid = new Grid(topLeft,topRight,obstacles);
-		
-		parser.init();
 		
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
@@ -170,9 +247,6 @@ public class MarsRoverWallapopApplicationTests {
 	@Test(expected= MoveException.class)
 	public void testOutOfBoundMove() throws MoveException, CreationException{
 		Direction direction = Direction.SOUTH;
-		
-		parser.init();
-		
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
 		try {
@@ -192,15 +266,17 @@ public class MarsRoverWallapopApplicationTests {
 	public void testExecuteMoreThanOneCommand() throws MoveException, CreationException{
 		Direction direction = Direction.NORTH;
 		
-		parser.init();
-		
 		MarsRover rover = new MarsRover(current, direction, grid,parser);
 		
-			String command = "FFF";
+			String command = "FFFRFFFRB";
 			rover.play(command);
-			assertEquals(new Integer(0), rover.getCoordinates().getCordinateX());
-			assertEquals(new Integer(3), rover.getCoordinates().getCordinateY());
+			
+			Coordinates expectedCoord = new Coordinates(3,4);
+			assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+			assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
 	}
+	
+	
 	
 	
 }

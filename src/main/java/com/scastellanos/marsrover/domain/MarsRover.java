@@ -20,11 +20,12 @@ public class MarsRover {
 	
 	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) throws CreationException {
 		
+		this.grid = grid;
+
 		validateInit(coordinates,direction,parser);
+		this.parser = parser;
 		this.coordinates = coordinates;
 		this.direction = direction;
-		this.grid = grid;
-		this.parser = parser;
 	}
 	
 	
@@ -38,15 +39,16 @@ public class MarsRover {
 		return true;
 	}
 	
-	private void validateCoordinates(Coordinates coordinate) throws CreationException {
-		if(this.coordinates.getCordinateX() >= 0 && this.getCoordinates().getCordinateY()  >= 0) {
-			if(!isValidateBounds(coordinates)) {
-				throw new CreationException("Invalid bounds");
+	private void validateCoordinates(Coordinates paramCoordinates) throws CreationException {
+		if(paramCoordinates.getCordinateX() >= 0 && paramCoordinates.getCordinateY()  >= 0) {
+			if(!isValidateBounds(paramCoordinates)) {
+				throw new CreationException("Invalid bounds, outside grid");
 			}
-			if(hasObstacles(coordinates)) {
+			if(hasObstacles(paramCoordinates)) {
 				throw new CreationException("There is an obstacle in initial rover position");
 			}
-		}
+		}else
+			throw new CreationException("Negative coordinates");
 	}
 	
 	
@@ -96,9 +98,18 @@ public class MarsRover {
 		
 	}
 
-	public void moveBack() {
-		this.coordinates.moveBack(direction.toString()); 
-	    System.out.println("Mooving back, we are in position > " + this.coordinates.toString()); 
+	public void moveBack() throws MoveException {
+		Coordinates previews = new Coordinates(this.coordinates);
+		
+		this.coordinates.moveBack(direction.toString());   
+		try {
+			validateMove(this.coordinates);
+		}catch (MoveException e) {
+			//In case of an obstacle detection, should not move.
+			this.coordinates=previews;
+			throw e;
+		}
+		System.out.println("Mooving Foward,we are in position > " + this.coordinates.toString()); 
 	};
 
 	/**

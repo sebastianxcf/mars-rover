@@ -2,6 +2,11 @@ package com.scastellanos.marsrover.domain;
 
 public class Coordinates {
 
+	private static final String NORTH = "NORTH";
+	private static final String EAST = "EAST";
+	private static final String WEST = "WEST";
+	private static final String SOUTH = "SOUTH";
+
 	public Coordinates(int cordinateX, int cordinateY) {
 		this.cordinateX = cordinateX;
 		this.cordinateY = cordinateY;
@@ -42,16 +47,16 @@ public class Coordinates {
 	public void moveForward(String direction) {
 
 		switch (direction) {
-		case "NORTH":
+		case NORTH:
 			this.cordinateY++;
 			break;
-		case "EAST":
+		case EAST:
 			this.cordinateX++;
 			break;
-		case "WEST":
+		case WEST:
 			this.cordinateX--;
 			break;
-		case "SOUTH":
+		case SOUTH:
 			this.cordinateY--;
 			break;
 		default:
@@ -64,16 +69,16 @@ public class Coordinates {
 	 */
 	public void moveBack(String direction) {
 		switch (direction) {
-		case "NORTH":
+		case NORTH:
 			this.cordinateY--;
 			break;
-		case "EAST":
+		case EAST:
 			this.cordinateX--;
 			break;
-		case "WEST":
+		case WEST:
 			this.cordinateX++;
 			break;
-		case "SOUT":
+		case SOUTH:
 			this.cordinateY++;
 			break;
 		default:

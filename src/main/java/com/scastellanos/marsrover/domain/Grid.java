@@ -8,24 +8,26 @@ import com.scastellanos.marsrover.exceptions.CreationException;
 
 public class Grid {
 	
-    private Coordinates bottomLeftCoordinates = new Coordinates(0,0);
+    private Coordinates bottomLeftCoordinates;
     
-    private Coordinates topRightCoordinates = new Coordinates(0,0);
+    private Coordinates topRightCoordinates;
     
     private Map<Coordinates,Obstacle> obstaclesMap = new HashMap<Coordinates,Obstacle>();
     
 	
     public Grid(Coordinates bottomLeftCoordinates, Coordinates topRightCoordinates,List<Obstacle> obstacles) throws CreationException {
+    	this.bottomLeftCoordinates = bottomLeftCoordinates;
+    	this.topRightCoordinates = topRightCoordinates;
+    	
     	if(!validateGrid()) {
-    		throw new CreationException("Invalida grid");
+    		throw new CreationException("Invalid grid");
     	}
     	
     	for (Obstacle obstacle : obstacles) {
-			this.obstaclesMap.put(obstacle.getCoordinate(), obstacle);
+    		validObstaclePosition(obstacle.getCoordinate());
+    		this.obstaclesMap.put(obstacle.getCoordinate(), obstacle);
 		}
     	
-    	this.bottomLeftCoordinates = bottomLeftCoordinates;
-		this.topRightCoordinates = topRightCoordinates;
 	}
 
 
@@ -41,6 +43,17 @@ public class Grid {
 			}
 		}
 		return false;
+	}
+	
+	private void validObstaclePosition(Coordinates obstacleCoordinate) throws CreationException{
+			if(obstacleCoordinate!=null) {
+				if(obstacleCoordinate.getCordinateX() > this.getTopRightCoordinates().getCordinateX()   ||
+						obstacleCoordinate.getCordinateX() < this.getBottomLeftCoordinates().getCordinateX() ||
+						obstacleCoordinate.getCordinateY() > this.getTopRightCoordinates().getCordinateY() ||
+						obstacleCoordinate.getCordinateY() < this.getBottomLeftCoordinates().getCordinateY()) {
+					throw new CreationException("Obstacle position outside grid");
+				}
+			}
 	}
     
     public boolean hasObstacle(Coordinates coordinate) {

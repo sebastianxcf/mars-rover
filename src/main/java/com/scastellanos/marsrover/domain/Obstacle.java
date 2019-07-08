@@ -1,7 +1,7 @@
 package com.scastellanos.marsrover.domain;
 
 public class Obstacle {
-	Coordinates coordinate;
+	private Coordinates coordinate;
 
 	/**
 	 * @return the coordinate
