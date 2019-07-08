@@ -19,6 +19,7 @@ import com.scastellanos.marsrover.commands.ICommand;
 @Component
 public class Parser {
 
+
 	Map<String, ICommand> commands = new HashMap<String, ICommand>();
 
 	
@@ -42,10 +43,10 @@ public class Parser {
 	}
 	
 	public void init() {
-		commands.put("R",commandRotateRight);
-		commands.put("L",commandRotateLeft);
-		commands.put("F",commandMoveForward);
-		commands.put("B",commandMoveBack);
+		commands.put(ICommand.R,commandRotateRight);
+		commands.put(ICommand.L,commandRotateLeft);
+		commands.put(ICommand.F,commandMoveForward);
+		commands.put(ICommand.B,commandMoveBack);
 	}
 	/**
 	 * @return the commands

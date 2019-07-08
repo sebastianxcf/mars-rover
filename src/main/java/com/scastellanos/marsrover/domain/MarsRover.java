@@ -2,6 +2,7 @@ package com.scastellanos.marsrover.domain;
 
 import java.util.Arrays;
 
+import com.scastellanos.marsrover.exceptions.CreationException;
 import com.scastellanos.marsrover.exceptions.MoveException;
 import com.scastellanos.marsrover.parser.Parser;
 import com.scastellanos.marsrover.util.ErrorCodes;
@@ -14,34 +15,45 @@ public class MarsRover {
 
 	private Grid grid;
 	
-	Parser parser;
-
+	private Parser parser;
 	
-	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) {
+	
+	public MarsRover(Coordinates coordinates, Direction direction, Grid grid,Parser parser) throws CreationException {
+		
+		validateInit(coordinates,direction,parser);
 		this.coordinates = coordinates;
 		this.direction = direction;
 		this.grid = grid;
 		this.parser = parser;
 	}
 	
-	public MarsRover(Coordinates coordinates, Direction direction, Grid grid) {
-		this.coordinates = coordinates;
-		this.direction = direction;
-		this.grid = grid;
+	
+	private boolean validateInit(Coordinates coordinates, Direction direction,Parser parser) throws CreationException {
+		if(direction==null) 
+			throw new CreationException("Invalid direction");
+		if(parser==null)
+			throw new CreationException("Invalid parser");
+
+		validateCoordinates(coordinates);
+		return true;
 	}
 	
-	public void play(String commands) {
+	private void validateCoordinates(Coordinates coordinate) throws CreationException {
+		if(this.coordinates.getCordinateX() >= 0 && this.getCoordinates().getCordinateY()  >= 0) {
+			if(!isValidateBounds(coordinates)) {
+				throw new CreationException("Invalid bounds");
+			}
+			if(hasObstacles(coordinates)) {
+				throw new CreationException("There is an obstacle in initial rover position");
+			}
+		}
+	}
+	
+	
+	public void play(String commands) throws MoveException {
 		 for(String c : Arrays.asList(commands.split("")) ){  
-	        	try {
-					
-	        		parser.getCommands().get(c).move(this);
-					
-				} catch (MoveException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-	        }
-		
+    		parser.getCommands().get(c).move(this);
+        }
 	}
 	
 	public void turnLeft() {
@@ -95,11 +107,13 @@ public class MarsRover {
 	 * @return
 	 */
 	private boolean isValidateBounds(Coordinates coordenate){
-		if(coordenate.getCordinateX() > grid.getTopRightCoordinates().getCordinateX()   ||
-		   coordenate.getCordinateX() < grid.getBottomLeftCoordinates().getCordinateX() ||
-		   coordenate.getCordinateY() > grid.getTopRightCoordinates().getCordinateY() ||
-		   coordenate.getCordinateY() < grid.getBottomLeftCoordinates().getCordinateY()) {
-			return false;
+		if(coordenate!=null && this.grid!=null) {
+			if(coordenate.getCordinateX() > grid.getTopRightCoordinates().getCordinateX()   ||
+			   coordenate.getCordinateX() < grid.getBottomLeftCoordinates().getCordinateX() ||
+			   coordenate.getCordinateY() > grid.getTopRightCoordinates().getCordinateY() ||
+			   coordenate.getCordinateY() < grid.getBottomLeftCoordinates().getCordinateY()) {
+				return false;
+			}
 		}
 		return true;
 		
