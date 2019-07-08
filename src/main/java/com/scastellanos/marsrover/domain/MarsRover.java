@@ -2,6 +2,7 @@ package com.scastellanos.marsrover.domain;
 
 import java.util.Arrays;
 
+import com.scastellanos.marsrover.commands.ICommand;
 import com.scastellanos.marsrover.exceptions.CreationException;
 import com.scastellanos.marsrover.exceptions.MoveException;
 import com.scastellanos.marsrover.parser.Parser;
@@ -53,9 +54,24 @@ public class MarsRover {
 	
 	
 	public void play(String commands) throws MoveException {
-		 for(String c : Arrays.asList(commands.split("")) ){  
-    		parser.getCommands().get(c).move(this);
-        }
+		for(String stringCommand : Arrays.asList(commands.split("")) ){
+			validateCommand(commands); 
+			parser.getCommands().get(stringCommand).move(this);
+		}
+	}
+	
+	/**
+	 * 
+	 * Validate if the char list of commands exist and it is in the correct format
+	 * @param commands
+	 * @throws MoveException
+	 */
+	private void validateCommand(String commands)throws MoveException {
+		for(String stringCommand : Arrays.asList(commands.split("")) ){
+			if(!parser.getCommands().containsKey(stringCommand)) {
+				throw new MoveException("Error in commands, please review");
+			}
+		}
 	}
 	
 	public void turnLeft() {
