@@ -42,11 +42,32 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 		Direction direction = null;
 		MarsRover rover = new MarsRover(current, direction, grid, parser);
 
-		assertNotNull(rover);
+	}
+	
+	@Test(expected = CreationException.class)
+	public void testCreateNewRoverWithOutOfBoundsCoordinates() throws CreationException {
+
+		instructions.add("R");
+		instructions.add("F");
+		instructions.add("B");
+		Direction direction = Direction.NORTH;
+		
+		current = new Coordinates(12, 12);
+		MarsRover rover = new MarsRover(current, direction, grid, parser);
+
+	}
+	
+	@Test(expected = CreationException.class)
+	public void testCreateNewRoverWithNullParser() throws CreationException {
+
+		instructions.add("B");
+		Direction direction = Direction.NORTH;
+		MarsRover rover = new MarsRover(current, direction, grid, null);
+
 	}
 
 	@Test(expected = CreationException.class)
-	public void testCreateNewRoverWithOutOfBoundsCoordinates() throws CreationException {
+	public void testCreateNewRoverWithNegativeCoordinates() throws CreationException {
 
 		instructions.add("R");
 		instructions.add("F");
@@ -56,8 +77,6 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 		current = new Coordinates(-1, -2);
 
 		MarsRover rover = new MarsRover(current, direction, grid, parser);
-
-		assertNotNull(rover);
 	}
 
 	@Test(expected = CreationException.class)
@@ -70,10 +89,8 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 
 		current = new Coordinates(2, 0);
 		Direction direction = Direction.NORTH;
-
 		MarsRover rover = new MarsRover(current, direction, grid, parser);
 
-		assertNotNull(rover);
 	}
 
 	@Test(expected = MoveException.class)
@@ -120,9 +137,24 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
 
 	}
+	
+	@Test
+	public void testMoveRoverForwardWithWestDirection() throws MoveException, CreationException {
+
+		Direction direction = Direction.WEST;
+		MarsRover rover = new MarsRover(current, direction, grid, parser);
+
+		String commands = "BF";
+		rover.play(commands);
+
+		Coordinates expectedCoord = new Coordinates(0, 0);
+		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+
+	}
 
 	@Test
-	public void testMoveRoverBackward() throws MoveException, CreationException {
+	public void testMoveRoverBackwardWithNorthDirection() throws MoveException, CreationException {
 
 		Direction direction = Direction.NORTH;
 		MarsRover rover = new MarsRover(current, direction, grid, parser);
@@ -135,6 +167,37 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
 
 	}
+	
+	@Test
+	public void testMoveRoverBackwardWithEastDirection() throws MoveException, CreationException {
+
+		Direction direction = Direction.EAST;
+		MarsRover rover = new MarsRover(current, direction, grid, parser);
+
+		String commands = "FB";
+		rover.play(commands);
+
+		Coordinates expectedCoord = new Coordinates(0, 0);
+		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+
+	}
+	
+	@Test
+	public void testMoveRoverBackwardWithWastDirection() throws MoveException, CreationException {
+
+		Direction direction = Direction.WEST;
+		MarsRover rover = new MarsRover(current, direction, grid, parser);
+
+		String commands = "B";
+		rover.play(commands);
+
+		Coordinates expectedCoord = new Coordinates(1, 0);
+		assertEquals(expectedCoord.getCordinateX(), rover.getCoordinates().getCordinateX());
+		assertEquals(expectedCoord.getCordinateY(), rover.getCoordinates().getCordinateY());
+
+	}
+	
 
 	@Test(expected = MoveException.class)
 	public void testObstacleDetection() throws MoveException, CreationException {

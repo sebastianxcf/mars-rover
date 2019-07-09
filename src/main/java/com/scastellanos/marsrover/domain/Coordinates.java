@@ -44,8 +44,9 @@ public class Coordinates {
 	/**
 	 * Given a direction move one step forward depending of the direction.
 	 * @param direction
+	 * @throws MoveException 
 	 */
-	public void moveForward(String direction) {
+	public void moveForward(String direction) throws MoveException {
 
 		switch (direction) {
 		case NORTH:
@@ -61,7 +62,8 @@ public class Coordinates {
 			this.cordinateY--;
 			break;
 		default:
-			throw new IllegalStateException("Wrong Direction");
+			throw new MoveException(ErrorCodes.MR_MOVE_204.getValue(),ErrorCodes.MR_MOVE_204.getDescription());
+
 		}
 	};
 

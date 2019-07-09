@@ -14,7 +14,8 @@ public enum ErrorCodes {
 	MR_MOVE_201("1201","Invalid move, outside grid range"),
 	MR_MOVE_202("1202","Invalid move, there is an obstacle in position"),
 	MR_MOVE_203("1203","Invalid command,please review."),
-	MR_MOVE_204("1204","Invalid state wrong direction");
+	MR_MOVE_204("1204","Invalid state wrong direction moving forward"),
+	MR_MOVE_205("1205","Invalid state wrong direction moving backward");
 	
 	
 	private String code;

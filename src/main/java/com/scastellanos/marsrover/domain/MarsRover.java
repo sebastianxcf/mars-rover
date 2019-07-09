@@ -205,12 +205,6 @@ public class MarsRover {
 		return coordinates;
 	}
 
-	/**
-	 * @param coordinates the coordinates to set
-	 */
-	public void setCoordinates(Coordinates coordinates) {
-		this.coordinates = coordinates;
-	}
 
 	/**
 	 * @return the direction
@@ -219,12 +213,6 @@ public class MarsRover {
 		return direction;
 	}
 
-	/**
-	 * @param direction the direction to set
-	 */
-	public void setDirection(Direction direction) {
-		this.direction = direction;
-	}
 
 	/**
 	 * @return the grid
@@ -233,11 +221,19 @@ public class MarsRover {
 		return grid;
 	}
 
+
 	/**
-	 * @param grid the grid to set
+	 * @return the parser
 	 */
-	public void setGrid(Grid grid) {
-		this.grid = grid;
+	public Parser getParser() {
+		return parser;
+	}
+
+	/**
+	 * @param parser the parser to set
+	 */
+	public void setParser(Parser parser) {
+		this.parser = parser;
 	}
 
 

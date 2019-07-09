@@ -14,6 +14,15 @@ import com.scastellanos.marsrover.exceptions.CreationException;
 @SpringBootTest
 public class GridTest extends MarsRoverBaseTest {
 
+	
+	@Test(expected = CreationException.class)
+	public void testCreateInvalidGridNegativeBorders() throws CreationException {
+
+		bottomLeft.setCordinateX(-1);
+		grid = new Grid(bottomLeft, topRight, obstacles);
+	}
+	
+	
 	@Test(expected = CreationException.class)
 	public void testCreateObstacleWithXPositionMayorThanXBorder() throws CreationException {
 		Obstacle o = new Obstacle();
