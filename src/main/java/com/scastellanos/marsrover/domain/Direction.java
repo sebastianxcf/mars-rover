@@ -1,6 +1,10 @@
 package com.scastellanos.marsrover.domain;
 
-
+/**
+ * This enum contains all the posible directions of the rover. 
+ * @author scastellanos
+ *
+ */
 public enum Direction {
 		NORTH("N") {
 			@Override
@@ -47,8 +51,17 @@ public enum Direction {
 			}
 		};
 	
+		/**
+		 * depending on the actual direction will execute one implementation or other
+		 * @return
+		 */
 		public abstract Direction turnLeft();
 	
+		
+		/**
+		 * depending on the actual direction will execute one implementation or other
+		 * @return
+		 */
 		public abstract Direction turnRight();
 	
 		

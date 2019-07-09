@@ -1,22 +1,19 @@
 package com.scastellanos.marsrover.exceptions;
 
-public class MoveException extends Exception {
+public class MoveException extends BaseException {
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8350088277683636392L;
+	private static final long serialVersionUID = -1615145355380621354L;
 
-	private String code;
-	
-	
 	public MoveException(String message) {
 		super(message);
 	}
 	
 	public MoveException(String code,String message) {
-		super(message);
-		this.code = code;
+		super(code,message);
 	}
 	
 	@Override
@@ -24,11 +21,4 @@ public class MoveException extends Exception {
         return super.getMessage();
     }
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
 }

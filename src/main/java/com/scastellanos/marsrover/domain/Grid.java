@@ -5,13 +5,29 @@ import java.util.List;
 import java.util.Map;
 
 import com.scastellanos.marsrover.exceptions.CreationException;
+import com.scastellanos.marsrover.util.ErrorCodes;
 
+/**
+ * This class represent the grid in which the rove will move around. The planet.
+ * It has bottoms and top coordinates in order to represent the dimensions.
+ * @author scastellanos
+ *
+ */
 public class Grid {
 	
+	/**
+	 * It represents the minor coordinates possible of the grid.
+	 */
     private Coordinates bottomLeftCoordinates;
     
+    /**
+     * Represents the coordinates of the top of the grid.
+     */
     private Coordinates topRightCoordinates;
     
+    /**
+     * A map of obstacles that will be on the grid. The obstacles are in a map cause we can access it in o(1) complexity
+     */
     private Map<Coordinates,Obstacle> obstaclesMap = new HashMap<Coordinates,Obstacle>();
     
 	
@@ -20,7 +36,7 @@ public class Grid {
     	this.topRightCoordinates = topRightCoordinates;
     	
     	if(!validateGrid()) {
-    		throw new CreationException("Invalid grid");
+    		throw new CreationException(ErrorCodes.MR_CREATE_106.getValue(),ErrorCodes.MR_CREATE_106.getDescription());
     	}
     	
     	for (Obstacle obstacle : obstacles) {
@@ -45,6 +61,11 @@ public class Grid {
 		return false;
 	}
 	
+	/**
+	 * Validate if the obstacle position its inside the grid dimensions.
+	 * @param obstacleCoordinate
+	 * @throws CreationException
+	 */
 	private void validObstaclePosition(Coordinates obstacleCoordinate) throws CreationException{
 			if(obstacleCoordinate!=null) {
 				if(obstacleCoordinate.getCordinateX() > this.getTopRightCoordinates().getCordinateX()   ||
@@ -55,7 +76,12 @@ public class Grid {
 				}
 			}
 	}
-    
+	
+    /**
+     * REturn true if there is an obstacle in the fiven coordinates.
+     * @param coordinate
+     * @return
+     */
     public boolean hasObstacle(Coordinates coordinate) {
     	return this.obstaclesMap.containsKey(coordinate);
     }

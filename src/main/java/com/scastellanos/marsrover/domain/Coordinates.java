@@ -1,5 +1,13 @@
 package com.scastellanos.marsrover.domain;
 
+import com.scastellanos.marsrover.exceptions.MoveException;
+import com.scastellanos.marsrover.util.ErrorCodes;
+
+/**
+ * Representation of Coordinates, x and y represent a point in the grid.. 
+ * @author scastellanos
+ *
+ */
 public class Coordinates {
 
 	private static final String NORTH = "NORTH";
@@ -30,19 +38,12 @@ public class Coordinates {
 	 */
 	@Override
 	public String toString() {
-		return "Coordinates [cordinateX=" + cordinateX + ", cordinateY=" + cordinateY + "]";
+		return "cordinateX= " + cordinateX + ", cordinateY=" + cordinateY;
 	}
 	
 	/**
-	 * Used to save the coordinates in a hashmap. 
-	 * @return
-	 */
-	public String getKey() {
-		return this.cordinateX.toString() +this.cordinateX.toString();
-	}
-
-	/*
-	 * Given a direction move one step forward
+	 * Given a direction move one step forward depending of the direction.
+	 * @param direction
 	 */
 	public void moveForward(String direction) {
 
@@ -64,10 +65,12 @@ public class Coordinates {
 		}
 	};
 
-	/*
-	 * Given a direction move one step backward
+	/**
+	 * Given a direction move one step backward depending of the direction.
+	 * @param direction
+	 * @throws MoveException 
 	 */
-	public void moveBack(String direction) {
+	public void moveBack(String direction) throws MoveException {
 		switch (direction) {
 		case NORTH:
 			this.cordinateY--;
@@ -82,7 +85,7 @@ public class Coordinates {
 			this.cordinateY++;
 			break;
 		default:
-			throw new IllegalStateException("Wrong Direction");
+			throw new MoveException(ErrorCodes.MR_MOVE_204.getValue(),ErrorCodes.MR_MOVE_204.getDescription());
 		}
 	}
 

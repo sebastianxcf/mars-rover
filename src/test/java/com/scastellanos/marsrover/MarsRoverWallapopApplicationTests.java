@@ -76,8 +76,6 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 		assertNotNull(rover);
 	}
 
-	// MOVE ROVER TEST
-
 	@Test(expected = MoveException.class)
 	public void testIncorrectCommands() throws MoveException, CreationException {
 
@@ -154,7 +152,7 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 			String commands = "FF";
 			rover.play(commands);
 		} catch (MoveException e) {
-			assertEquals(ErrorCodes.MR_MOVE_102.getValue(), e.getCode());
+			assertEquals(ErrorCodes.MR_MOVE_202.getValue(), e.getCode());
 			// Check that validate the position before move.
 			assertEquals(new Integer(1), rover.getCoordinates().getCordinateX());
 			assertEquals(new Integer(0), rover.getCoordinates().getCordinateY());
@@ -172,7 +170,7 @@ public class MarsRoverWallapopApplicationTests extends MarsRoverBaseTest {
 			String command = "F";
 			rover.play(command);
 		} catch (MoveException e) {
-			assertEquals(ErrorCodes.MR_MOVE_101.getValue(), e.getCode());
+			assertEquals(ErrorCodes.MR_MOVE_201.getValue(), e.getCode());
 			// Check that validate the position before move.
 			assertEquals(new Integer(0), rover.getCoordinates().getCordinateX());
 			assertEquals(new Integer(0), rover.getCoordinates().getCordinateY());

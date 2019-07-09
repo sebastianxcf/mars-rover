@@ -2,12 +2,20 @@ package com.scastellanos.marsrover.domain;
 
 import java.util.Arrays;
 
-import com.scastellanos.marsrover.commands.ICommand;
 import com.scastellanos.marsrover.exceptions.CreationException;
 import com.scastellanos.marsrover.exceptions.MoveException;
 import com.scastellanos.marsrover.parser.Parser;
 import com.scastellanos.marsrover.util.ErrorCodes;
 
+
+/**
+ * Represents the mars rover universe.
+ * It has aa group of initials coordinates
+ * A initial direction
+ * A grid in which will move around
+ * @author scastellanos
+ *
+ */
 public class MarsRover {
 
 	private Coordinates coordinates;
@@ -29,35 +37,55 @@ public class MarsRover {
 		this.direction = direction;
 	}
 	
-	
+	/**
+	 * Validate that all the inputs are valid. Correct direction, and coordinates inside the grid.
+	 * @param coordinates
+	 * @param direction
+	 * @param parser
+	 * @return
+	 * @throws CreationException
+	 */
 	private boolean validateInit(Coordinates coordinates, Direction direction,Parser parser) throws CreationException {
 		if(direction==null) 
-			throw new CreationException("Invalid direction");
+			throw new CreationException(ErrorCodes.MR_CREATE_101.getValue(), ErrorCodes.MR_CREATE_101.getDescription());
 		if(parser==null)
-			throw new CreationException("Invalid parser");
+			throw new CreationException(ErrorCodes.MR_CREATE_105.getValue(), ErrorCodes.MR_CREATE_105.getDescription());
 
 		validateCoordinates(coordinates);
 		return true;
 	}
 	
+	/**
+	 * Given a start point of coordinates, validate that this coordinate is inside the grid bounds and also that there isn't obstacles in the same position
+	 * @param paramCoordinates
+	 * @throws CreationException
+	 */
 	private void validateCoordinates(Coordinates paramCoordinates) throws CreationException {
 		if(paramCoordinates.getCordinateX() >= 0 && paramCoordinates.getCordinateY()  >= 0) {
 			if(!isValidateBounds(paramCoordinates)) {
-				throw new CreationException("Invalid bounds, outside grid");
+				throw new CreationException(ErrorCodes.MR_CREATE_102.getValue(),ErrorCodes.MR_CREATE_102.getDescription());
 			}
 			if(hasObstacles(paramCoordinates)) {
-				throw new CreationException("There is an obstacle in initial rover position");
+				throw new CreationException(ErrorCodes.MR_CREATE_103.getValue(),ErrorCodes.MR_CREATE_103.getDescription());
 			}
 		}else
-			throw new CreationException("Negative coordinates");
+			throw new CreationException(ErrorCodes.MR_CREATE_104.getValue(),ErrorCodes.MR_CREATE_104.getDescription());
 	}
 	
 	
-	public void play(String commands) throws MoveException {
+	/**
+	 * Given a list of characters in a String, this function parser all the commands and try to execute all of them one by one.
+	 * In case of found one wrong-formed character will thrown a MoveException with the explicit error message and code.
+	 * @param commands
+	 * @return
+	 * @throws MoveException
+	 */
+	public Coordinates play(String commands) throws MoveException {
 		for(String stringCommand : Arrays.asList(commands.split("")) ){
 			validateCommand(commands); 
 			parser.getCommands().get(stringCommand).move(this);
 		}
+		return this.coordinates;
 	}
 	
 	/**
@@ -69,21 +97,29 @@ public class MarsRover {
 	private void validateCommand(String commands)throws MoveException {
 		for(String stringCommand : Arrays.asList(commands.split("")) ){
 			if(!parser.getCommands().containsKey(stringCommand)) {
-				throw new MoveException("Error in commands, please review");
+				throw new MoveException(ErrorCodes.MR_MOVE_203.getValue(), ErrorCodes.MR_MOVE_203.getDescription());
 			}
 		}
 	}
 	
+	/**
+	 * Just turn the rover 45 degrees to left
+	 */
 	public void turnLeft() {
 		this.direction = this.direction.turnLeft();
-		System.out.println("We are looking at " + direction.name());
 	};
 
+	/**
+	 * Just turn the rover 45 degrees to right
+	 */
 	public void turnRight() {
 		this.direction = this.direction.turnRight();
-		System.out.println("We are looking at " + direction.name());
 	};
 	
+	/**
+	 * Move forward the rove in the corresponding direction.
+	 * @throws MoveException
+	 */
 	public void moveFoward() throws MoveException {
 		Coordinates previews = new Coordinates(this.coordinates);
 		
@@ -95,25 +131,12 @@ public class MarsRover {
 			this.coordinates=previews;
 			throw e;
 		}
-		System.out.println("Mooving Foward,we are in position > " + this.coordinates.toString()); 
 	};
 	
 	/**
-	 * Given a coordinate determinate if the move is valid or not
-	 * @param coordinate
+	 * Move backward the rove in the corresponding direction.
 	 * @throws MoveException
 	 */
-	private void validateMove(Coordinates coordinate) throws MoveException  {
-		if(!isValidateBounds(coordinates)) {
-			throw new MoveException(ErrorCodes.MR_MOVE_101.getValue(),ErrorCodes.MR_MOVE_101.getDescription());
-			
-		}
-		if(hasObstacles(this.coordinates)) {
-			throw new MoveException(ErrorCodes.MR_MOVE_102.getValue(),ErrorCodes.MR_MOVE_102.getDescription());
-		}
-		
-	}
-
 	public void moveBack() throws MoveException {
 		Coordinates previews = new Coordinates(this.coordinates);
 		
@@ -125,8 +148,26 @@ public class MarsRover {
 			this.coordinates=previews;
 			throw e;
 		}
-		System.out.println("Mooving Foward,we are in position > " + this.coordinates.toString()); 
 	};
+	
+	
+	
+	/**
+	 * Given a coordinate determinate if the move is valid or not
+	 * @param coordinate
+	 * @throws MoveException
+	 */
+	private void validateMove(Coordinates coordinate) throws MoveException  {
+		if(!isValidateBounds(coordinates)) {
+			throw new MoveException(ErrorCodes.MR_MOVE_201.getValue(),ErrorCodes.MR_MOVE_201.getDescription());
+			
+		}
+		if(hasObstacles(this.coordinates)) {
+			throw new MoveException(ErrorCodes.MR_MOVE_202.getValue(),ErrorCodes.MR_MOVE_202.getDescription() + " " + coordinate.toString());
+		}
+		
+	}
+
 
 	/**
 	 * Given a coordinates return true only if the move is inside of the grid limits.
