@@ -25,6 +25,11 @@ import com.scastellanos.marsrover.exceptions.MoveException;
 import com.scastellanos.marsrover.parser.Parser;
 import com.scastellanos.marsrover.utils.Util;
 
+/**
+ * This class defines the endpoints of the project. In this case we have only one.
+ * @author scastellanos
+ *
+ */
 @Controller
 @RequestMapping("/mars")
 public class MarsController {
@@ -32,10 +37,9 @@ public class MarsController {
 	private static final Logger logger = LoggerFactory.getLogger(MarsController.class);
 	
 	@Autowired
-	Parser parser;
+	private Parser parser;
 
-	MarsRover rover;
-	
+	private MarsRover rover;
 	
 	
 	@RequestMapping(value="/move", method = RequestMethod.POST, produces = "application/json")

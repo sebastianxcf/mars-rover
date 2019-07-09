@@ -1,7 +1,7 @@
 package com.scastellanos.marsrover.dto;
 
 /**
- * This class respresent the response of the moves. It contains the initial coordinates of the rove and the finals after process the commands.
+ * This class respresent the response of execute a set of commands. It contains the initial coordinates of the rove and the finals after process the commands.
  * @author scastellanos
  *
  */

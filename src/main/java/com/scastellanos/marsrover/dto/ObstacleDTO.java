@@ -1,5 +1,10 @@
 package com.scastellanos.marsrover.dto;
 
+/**
+ * Obstacle representation as a DTO.
+ * @author scastellanos
+ *
+ */
 public class ObstacleDTO {
 
 	private int x;

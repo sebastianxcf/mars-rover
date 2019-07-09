@@ -7,6 +7,11 @@ import com.scastellanos.marsrover.domain.Coordinates;
 import com.scastellanos.marsrover.domain.Obstacle;
 import com.scastellanos.marsrover.dto.ObstacleDTO;
 
+/**
+ * This class represent commons generic operations for all the project
+ * @author scastellanos
+ *
+ */
 public class Util {
 
 	

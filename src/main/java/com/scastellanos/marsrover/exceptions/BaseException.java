@@ -6,7 +6,10 @@ public class BaseException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = -8350088277683636392L;
-
+	
+	/**
+	 * This attributes hold the code of the error. Every error is defined in ErrorCode enum.
+	 */
 	private String code;
 	
 	

@@ -188,6 +188,11 @@ public class MarsRover {
 	}
 	
 	
+	/**
+	 * Return true if exist at least one obstacle in the given coordinates.
+	 * @param coordinates
+	 * @return
+	 */
 	public boolean hasObstacles(Coordinates coordinates) {
 		if(grid.hasObstacle(coordinates))
             return true;

@@ -4,20 +4,48 @@ import java.util.List;
 
 import com.scastellanos.marsrover.domain.Direction;
 
+/**
+ * This class is the representation of all necessary attributes to initialize the mars-rover.
+ * This object is only used by the controllers layer or the service in case of have a service tier and its mapped to the business entities.
+ * 
+ * @author scastellanos
+ *
+ */
 public class GameInitDTO {
 
+	/**
+	 * Reresent the direction in which the rover start (N,E,S,W)
+	 */
 	private Direction direction;
 	
+	/**
+	 * The x point of the grid in which the mars rover start
+	 */
 	private int currentCoordinateX;
 	
+	/**
+	 * The y point of the grid in which the mars rover start
+	 */
 	private int currentCoordinateY;
 	
+	/**
+	 * The top right length of the grid or planet
+	 */
 	private int topRight;
 	
+	/**
+	 * The top left length of the grid or planet
+	 */
 	private	int topLeft;
 	
+	/**
+	 * The list of obstacles objects that will putted in the grid.
+	 */
 	private List<ObstacleDTO> obstacles;
 	
+	/**
+	 * A list of characters in order to by exeuted as a commands (F = move forward, B = move backward, R= turn right, L = turn left )
+	 */
 	private	String commands;
 	/**
 	 * @return the topLeft

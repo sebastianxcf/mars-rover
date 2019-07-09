@@ -42,6 +42,11 @@ public class Parser {
 	public Parser() {
 	}
 	
+	/**
+	 * This method put the commands instances created by spring using IOC in a map.
+	 * Then every time we need to execute a command we just get the value from the map using the command as a key.
+	 * 
+	 */
 	public void init() {
 		commands.put(ICommand.R,commandRotateRight);
 		commands.put(ICommand.L,commandRotateLeft);
