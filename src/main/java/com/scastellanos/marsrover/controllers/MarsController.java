@@ -25,6 +25,11 @@ import com.scastellanos.marsrover.exceptions.MoveException;
 import com.scastellanos.marsrover.parser.Parser;
 import com.scastellanos.marsrover.utils.Util;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 /**
  * This class defines the endpoints of the project. In this case we have only one.
  * @author scastellanos
@@ -41,9 +46,13 @@ public class MarsController {
 
 	private MarsRover rover;
 	
-	
+	@ApiOperation(value = "Return the final coordinates of after execute all possible given commands")
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Internal Server Error") 
+        })
 	@RequestMapping(value="/move", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<RestResponseDTO> createNewGame(@RequestBody GameInitDTO game) {
+	public ResponseEntity<RestResponseDTO> createNewGame(@ApiParam(value="The representation of all necessary attributes to initialize the mars-rover.") @RequestBody GameInitDTO game) {
 		ResponseDTO response = new ResponseDTO();
 
 		try {
