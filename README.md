@@ -26,6 +26,10 @@ https://docs.docker.com/install/linux/docker-ce/ubuntu/
 Application-prod.properties for prod configuration.
 Application-test.properties for test configuration.
 
+## 3rd Party Libraries Used:
+Build Tool: Apache Maven 3.1.1
+Test Tool: JUnit
+Jacoco for Coverage
 
 ## Installing
 
@@ -51,6 +55,8 @@ Then just run the docker image
 mvn -U clean install spring-boot:run
 ```
 
+In all the scenarios the junits test will be executed
+
 In order to verify the installation, make a post request using Swagger
 http://localhost:8080/swagger-ui.html#/
 
@@ -74,10 +80,11 @@ In order to deploy a production version please run with ```active-profile = prod
 ```bash 
 docker run -e SPRING_PROFILES_ACTIVE=prod --rm -p 8080:8080 mars-rover  --rm -p 8080:8080 mars-rover 
 ```
+In this case, the production version is not much different from dev, but in case that we add Data base support we can set the differents configuration in application-dev.properties and application-prod.properties files.
 
+## Start playing
 
-## Game play
-### Create new game
+### Execute commands
 Please use swagger or postman
 
 http://localhost:8080/swagger-ui.html#/
@@ -158,7 +165,11 @@ Spring Boot with spring mvc
 Spring Boot is an awesome framework to quickly build an Rest based Application.
 
 ## Design decisions
-For this case I've applyed Command design patter : 
+
+I start by identifying the entity objets that I would need, the (Plateau/Grid), Rover, Direction, Commands,Obstacle.
+I starting with a very basic POJO design  then began looking at using Design Patterns and Test Driven Development.
+
+I've implemented the Command design pattern for executing the commands that the Rover needed to execute.
 https://blog.miyozinc.com/design-patterns/command-pattern/
 
 
