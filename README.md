@@ -112,22 +112,19 @@ Request Body example
 	"commands":"RFFFLF"
 }
 
- ```direction = represent the direction in which the rover start (N,E,S,W)
- ```
- ```cordinateX = The x point of the grid in which the mars rover start
- ```
+ ```direction = represent the direction in which the rover start (N,E,S,W)```
  
- ```cordinateY = The y point of the grid in which the mars rover start
-  ```
-  ```topRight = The top right length of the grid or planet
-  ```
+ ```cordinateX = The x point of the grid in which the mars rover start```
+ 
+  ```cordinateY = The y point of the grid in which the mars rover start```
   
-  ```topLeft = The top left length of the grid or planet
-  ```
+  ```topRight = The top right length of the grid or planet```
+   
+  ```topLeft = The top left length of the grid or planet```
   
-  ```bash
-  obstacles = The list of obstacles objects that will putted in the grid.
-  ```
+  
+  ```obstacles = The list of obstacles objects that will putted in the grid.```
+  
   ```commands = A list of characters in order to by exeuted as a commands (F = move forward, B = move backward, R= turn right, L = turn left )
   ```
 
