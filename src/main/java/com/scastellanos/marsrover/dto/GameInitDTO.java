@@ -14,7 +14,7 @@ import com.scastellanos.marsrover.domain.Direction;
 public class GameInitDTO {
 
 	/**
-	 * Reresent the direction in which the rover start (N,E,S,W)
+	 * Represent the direction in which the rover start (N,E,S,W)
 	 */
 	private Direction direction;
 	
