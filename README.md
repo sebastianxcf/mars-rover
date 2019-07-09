@@ -90,9 +90,10 @@ Please use swagger or postman
 http://localhost:8080/swagger-ui.html#/
 
 find the endpoint 
-```/mars/move
+```/mars/move ```
 
 Request Body example
+
 ```bash
 {
 	
@@ -111,6 +112,7 @@ Request Body example
 	],
 	"commands":"RFFFLF"
 }
+```
 
  ```direction = represent the direction in which the rover start (N,E,S,W)```
  
