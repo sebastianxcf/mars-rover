@@ -1,4 +1,4 @@
-# mars-rover-wallapop
+# mars-rover
 
 Develop an api that moves a rover around on a grid.
 
